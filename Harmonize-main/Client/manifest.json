@@ -1,0 +1,33 @@
+{
+  "manifest_version": 3,
+  "name": "Harmonize",
+  "description": "An extension which detects toxic comments in SE spaces and blurs them out for you. It also shows alternate harmonious comments when you try to post toxic comments in these spaces.",
+  "version": "2.0.1",
+  "minimum_chrome_version": "49",
+  "author": "SETeam10",
+  "action": {
+    "default_popup": "index.html",
+    "default_title": "Harmonize"
+  },
+  "icons":{
+    "128": "128_logo.png"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["index.html"],
+      "matches": ["https://*/*"]
+      
+    }
+  ],
+  "permissions": ["tabs", "tabGroups", "storage", "webRequest", "webNavigation"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "css": ["style1.css"],
+      "js": ["js/jquery-3.3.1.min.js", "content.js", "js/chart_imported.js"]
+    }
+  ]
+}
