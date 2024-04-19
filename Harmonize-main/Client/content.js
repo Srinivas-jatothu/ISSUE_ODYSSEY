@@ -251,16 +251,21 @@ function toggleIssuesDisplay(toggleBtn, sortedIssues, container) {
 
 function generateHTML(issues) {
   return issues.map(issue => {
-    // Calculate the width of the green part based on the similarity percentage
-    const similarity = parseFloat(issue.similarity_per);  // Convert percentage string to number
-    const greenWidth = similarity;
-    const redWidth = 100 - similarity;
+    // Calculate the width of the green part based on the similarity percentage, scaled down to 90%
+    const originalSimilarity = parseFloat(issue.similarity_per); // Convert percentage string to number
+    const scaledSimilarity = originalSimilarity * 0.9; // Scale similarity to 90%
+    const greenWidth = scaledSimilarity; // Percentage of green (adjusted)
+    const grayWidth = 100 - scaledSimilarity; // Percentage of gray (adjusted)
+
     return `<div class="issue-entry">
       <a href="${issue.issue_link}">${truncateTitle(issue.issue_title)} <span class="issue-number">#${issue.issue_no}</span></a>
-      <div class="similarity-bar" style="background: linear-gradient(to right, #008000 ${greenWidth}%, #707070 ${greenWidth}%, #707070 ${redWidth}%); height: 10px; width: 100%; border-radius: 5px;"></div>
+      <div class="similarity-bar" style="background: linear-gradient(to right, #008000 ${greenWidth}%, #646464 ${greenWidth}%, #646464 ${grayWidth}%); height: 10px; width: 100%; margin: auto; border-radius: 5px;"></div>
     </div>`;
   }).join('');
 }
+
+
+
 
 // CSS styles for the commit box and entries
 const style = document.createElement("style");
