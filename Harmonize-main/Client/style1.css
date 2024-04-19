@@ -75,3 +75,23 @@
     z-index: 1500;
   }
 
+  .issue-entry {
+    margin-bottom: 10px;
+    border-bottom: 1px solid #555; 
+    padding-bottom: 5px;
+  }
+  
+  .issue-entry:last-child {
+    border-bottom: none;
+  }
+  
+  .issue-entry a {
+    text-decoration: none;
+    color: #4da6ff;
+  }
+  
+  .similarity-bar {
+    margin-top: 5px; /* Add space between the link and the bar */
+  }
+  
+

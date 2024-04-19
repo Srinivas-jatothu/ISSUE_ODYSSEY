@@ -120,7 +120,6 @@ def issue_issue_linker(data):
 
 @app.route('/get_issues', methods=['GET', 'POST'])
 def get_issues():
-    # print("get_bokka")
     if request.method == 'POST':
         
         cur_issue_data = request.json

@@ -235,18 +235,31 @@ function toggleIssuesDisplay(toggleBtn, sortedIssues, container) {
 }
 
 // Helper function to generate HTML for issue entries
+// function generateHTML(issues) {
+//   return issues
+//     .map(
+//       (issue) =>
+//         `<div class="issue-entry">
+//       <a href="${issue.issue_link}">${truncateTitle(
+//           issue.issue_title
+//         )} <span class="issue-number">#${issue.issue_no}</span></a>
+//       <span class="similarity">Similarity: ${issue.similarity_per}</span>
+//     </div>`
+//     )
+//     .join("");
+// }
+
 function generateHTML(issues) {
-  return issues
-    .map(
-      (issue) =>
-        `<div class="issue-entry">
-      <a href="${issue.issue_link}">${truncateTitle(
-          issue.issue_title
-        )} <span class="issue-number">#${issue.issue_no}</span></a>
-      <span class="similarity">Similarity: ${issue.similarity_per}</span>
-    </div>`
-    )
-    .join("");
+  return issues.map(issue => {
+    // Calculate the width of the green part based on the similarity percentage
+    const similarity = parseFloat(issue.similarity_per);  // Convert percentage string to number
+    const greenWidth = similarity;
+    const redWidth = 100 - similarity;
+    return `<div class="issue-entry">
+      <a href="${issue.issue_link}">${truncateTitle(issue.issue_title)} <span class="issue-number">#${issue.issue_no}</span></a>
+      <div class="similarity-bar" style="background: linear-gradient(to right, #008000 ${greenWidth}%, #707070 ${greenWidth}%, #707070 ${redWidth}%); height: 10px; width: 100%; border-radius: 5px;"></div>
+    </div>`;
+  }).join('');
 }
 
 // CSS styles for the commit box and entries
@@ -318,11 +331,11 @@ async function getResult(send_data) {
   };
   // console.log(send_data);
   try {
-    const response = await fetch("httpS://10.23.105.31:5000/get_issues", options);
+    const response = await fetch("https://10.23.105.31:5000/get_issues", options);
     const data = await response.json();
-    // console.log("data", data);
+    console.log("data", data);
     issuesData = data;
-    //appendCommitSummaryBox();
+    appendCommitSummaryBox();
     return data;
   } catch (error) {
     console.error("Error:", error);
@@ -343,7 +356,7 @@ const observer = new MutationObserver(async (mutations, obs) => {
     const info = extractGithubInfo(url);
     issuesData = await getResult(info);
     // console.log("issuesData", issuesData);
-    appendCommitSummaryBox();
+    // appendCommitSummaryBox();
   } else {
     removeCommitSummaryBox();
   }
